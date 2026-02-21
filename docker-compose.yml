@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # The MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: auth_mysql
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql 
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # The Node.js API
+  api:
+    build: . 
+    container_name: auth_api 
+    restart: always 
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      # Overrides the 'localhost' in your .env so the app can find the DB container
+      - DB_HOST=db
+      - DB_USER=auth_user        # ← add this
+      - DB_PASSWORD=${MYSQL_PASSWORD}     
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data: 

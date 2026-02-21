@@ -1,0 +1,8 @@
+    #git ignore file for authentication system project
+
+# Ignore node_modules
+node_modules/
+.env
+TESTING.md
+.dockerignore
+package-lock.json

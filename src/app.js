@@ -4,7 +4,9 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const { testConnection, initializeDatabase } = require('./config/database');
 const authRoutes = require('./routes/auth.routes');

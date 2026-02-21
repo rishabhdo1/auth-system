@@ -3,11 +3,11 @@ require('dotenv').config();
 
 // Create connection pool for better performance
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+  host: process.env.DB_HOST || 'sql.freedb.tech',
+  user: process.env.DB_USER || 'freedb_rishabh',
+  password: process.env.DB_PASSWORD || '4*G@3?25aFR3uaQ',
+  database: process.env.DB_NAME || 'freedb_authSystem',
+  port: process.env.DB_PORT || 3306,
   ssl: { rejectUnauthorized: false },   // REQUIRED
   waitForConnections: true,
   connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) || 10,
